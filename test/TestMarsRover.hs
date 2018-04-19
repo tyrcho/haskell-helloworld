@@ -15,11 +15,18 @@ position (point, _) = point
 direction :: Rover -> Direction
 direction (_, dir) = dir
 
-test1 = TestCase (assertEqual "Rover is at base position" (0, 0) (position ((0,0), North)))
+newRover :: Point -> Direction -> Rover
+newRover p d = (p, d)
+
+defaultRover :: Rover
+defaultRover = newRover (0,0) North
+
+
+test1 = TestCase (assertEqual "Rover is at base position" (0, 0) (position defaultRover))
 
 test2 = TestCase (assertEqual "Rover remembers position" (1, 2) (position ((1, 2),North)))
 
-test3 = TestCase (assertEqual "Rover initially faces North" North (direction ((0, 0),North)))
+test3 = TestCase (assertEqual "Rover initially faces North" North (direction defaultRover))
 
 test4 = TestCase (assertEqual "Rover remembers direction" South (direction ((0, 0), South)))
 
