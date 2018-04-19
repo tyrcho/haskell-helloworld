@@ -2,14 +2,17 @@
 module TestMarsRover where
 
 import Test.HUnit
+import Data.List
 
 data Direction = North | South | West | East deriving (Eq, Show)
 
+clockwise :: [Direction]
+clockwise = [North, East, South, West]
+
 rotateLeft :: Direction -> Direction
-rotateLeft North = West
-rotateLeft West = South
-rotateLeft South = East
-rotateLeft East = North
+rotateLeft dir = clockwise !! j
+  where Just(i) = elemIndex dir clockwise
+        j = (i - 1) `mod` 4
 
 rotateRight :: Direction -> Direction
 rotateRight West = North
@@ -56,11 +59,14 @@ test4 = TestCase (assertEqual "Rover remembers direction" South (direction ((0, 
 
 test5 = TestCase (assertEqual "Rover turns left from North to West" West (direction (left defaultRover)))
 
+test7 = TestCase (assertEqual "Rover turns left from East to North" North (direction (left ((0, 0), East))))
+
 test6 = TestCase (assertEqual "Rover turns right from North to East" East (direction (right defaultRover)))
 
 tests = TestList [ TestLabel "test1" test1,
                    TestLabel "test2" test2,
                    TestLabel "test4" test4,
                    TestLabel "test5" test5,
+                   TestLabel "test7" test7,
                    TestLabel "test6" test6,
                    TestLabel "test3" test3]
