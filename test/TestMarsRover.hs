@@ -10,15 +10,16 @@ clockwise :: [Direction]
 clockwise = [North, East, South, West]
 
 rotateLeft :: Direction -> Direction
-rotateLeft dir = clockwise !! j
-  where Just(i) = elemIndex dir clockwise
-        j = (i - 1) `mod` 4
+rotateLeft = rotate (\x -> x - 1)
+
 
 rotateRight :: Direction -> Direction
-rotateRight West = North
-rotateRight South = West
-rotateRight East = South
-rotateRight North = East
+rotateRight = rotate (+ 1)
+
+rotate :: (Int -> Int) -> Direction -> Direction
+rotate f dir = clockwise !! j
+  where Just(i) = elemIndex dir clockwise
+        j = (f i) `mod` 4
 
 type Point = (Int, Int)
 
