@@ -6,8 +6,10 @@ import Test.HUnit
 type Rover = (Int, Int)
 
 position :: Rover -> (Int, Int)
-position _ = (0, 0)
+position r = r
 
 test1 = TestCase (assertEqual "Rover is at base position" (0, 0) (position (0,0)))
 
-tests = TestList [TestLabel "test1" test1]
+test2 = TestCase (assertEqual "Rover remembers position" (1, 2) (position (1, 2)))
+
+tests = TestList [TestLabel "test1" test1, TestLabel "test2" test2]
