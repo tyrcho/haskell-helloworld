@@ -3,9 +3,11 @@ module TestMarsRover where
 
 import Test.HUnit
 
-type Rover = (Int, Int)
+type Point = (Int, Int)
 
-position :: Rover -> (Int, Int)
+type Rover = Point
+
+position :: Rover -> Point
 position r = r
 
 test1 = TestCase (assertEqual "Rover is at base position" (0, 0) (position (0,0)))
