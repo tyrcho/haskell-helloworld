@@ -21,6 +21,9 @@ delta South (x, y) = (x, y - 1)
 delta West (x, y) = (x - 1, y)
 delta East (x, y) = (x + 1, y)
 
+opposite :: Direction -> Direction
+opposite = rotate (+2)
+
 rotate :: (Int -> Int) -> Direction -> Direction
 rotate f dir = clockwise !! next
   where Just(current) = elemIndex dir clockwise
@@ -51,6 +54,9 @@ direction (_, dir) = dir
 forward :: Rover -> Rover
 forward (pos, dir) = (delta dir pos, dir)
 
+backwards :: Rover -> Rover
+backwards (pos, dir) = (delta (opposite dir) pos, dir)
+
 left :: Rover -> Rover
 left (pos, dir) = (pos, rotateLeft dir)
 
@@ -76,6 +82,8 @@ test8 = TestCase (assertEqual "Rover moves forward" (0, 1) (position (forward de
 
 test9 = TestCase (assertEqual "Rover moves forward in general" (1, 1) (position (forward ((2,1), West))))
 
+test10 = TestCase (assertEqual "Rover moves backwards" (1, 1) (position (backwards ((2,1), East))))
+
 tests = TestList [ TestLabel "test1" test1,
                    TestLabel "test2" test2,
                    TestLabel "test4" test4,
@@ -84,4 +92,5 @@ tests = TestList [ TestLabel "test1" test1,
                    TestLabel "test6" test6,
                    TestLabel "test8" test8,
                    TestLabel "test9" test9,
+                   TestLabel "test10" test10,
                    TestLabel "test3" test3]
