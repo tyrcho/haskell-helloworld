@@ -12,14 +12,19 @@ clockwise = [North, East, South, West]
 rotateLeft :: Direction -> Direction
 rotateLeft = rotate (\x -> x - 1)
 
-
 rotateRight :: Direction -> Direction
 rotateRight = rotate (+ 1)
 
+delta :: Direction -> Point -> Point
+delta North (x, y) = (x, y + 1)
+delta South (x, y) = (x, y - 1)
+delta West (x, y) = (x - 1, y)
+delta East (x, y) = (x + 1, y)
+
 rotate :: (Int -> Int) -> Direction -> Direction
-rotate f dir = clockwise !! j
-  where Just(i) = elemIndex dir clockwise
-        j = (f i) `mod` 4
+rotate f dir = clockwise !! next
+  where Just(current) = elemIndex dir clockwise
+        next = (f current) `mod` 4
 
 type Point = (Int, Int)
 
@@ -43,6 +48,9 @@ direction (_, dir) = dir
 
 -- actions
 
+forward :: Rover -> Rover
+forward (pos, dir) = (delta dir pos, dir)
+
 left :: Rover -> Rover
 left (pos, dir) = (pos, rotateLeft dir)
 
@@ -64,10 +72,16 @@ test7 = TestCase (assertEqual "Rover turns left from East to North" North (direc
 
 test6 = TestCase (assertEqual "Rover turns right from North to East" East (direction (right defaultRover)))
 
+test8 = TestCase (assertEqual "Rover moves forward" (0, 1) (position (forward defaultRover)))
+
+test9 = TestCase (assertEqual "Rover moves forward in general" (1, 1) (position (forward ((2,1), West))))
+
 tests = TestList [ TestLabel "test1" test1,
                    TestLabel "test2" test2,
                    TestLabel "test4" test4,
                    TestLabel "test5" test5,
                    TestLabel "test7" test7,
                    TestLabel "test6" test6,
+                   TestLabel "test8" test8,
+                   TestLabel "test9" test9,
                    TestLabel "test3" test3]
