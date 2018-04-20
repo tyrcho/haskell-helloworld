@@ -1,4 +1,4 @@
-module TestMarsRover where
+module Test.MarsRover ( tests ) where
 
 import Test.HUnit
 import Directions
