@@ -1,9 +1,10 @@
-module Test.MarsRover ( tests ) where
+module Test.MarsRoverTests where
 
 import Test.HUnit
+import Test.Framework
+import Test.Framework.Providers.HUnit
 import Directions
 import Rover
-
 
 tests = test [
     "Rover is at base position"             ~: (0, 0) ~=? (position defaultRover),
@@ -16,3 +17,6 @@ tests = test [
     "Rover moves forward"                   ~: (0, 1) ~=?  (position (forward defaultRover)),
     "Rover moves forward in general"        ~: (1, 1) ~=?  (position (forward ((2,1), West))),
     "Rover moves backwards"                 ~: (1, 1) ~=?  (position (backwards ((2,1), East))) ]
+
+
+main = defaultMain tests
